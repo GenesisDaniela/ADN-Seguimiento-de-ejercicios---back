@@ -1,0 +1,23 @@
+jasypt:
+   encryptor:
+      password: ${jasyptpwd:secretkey}
+      algorithm: PBEWithMD5AndDES
+
+server:
+   port: 
+   servlet:
+      context-path: /
+      session:
+         timeout: 21600s
+springdoc:
+   swagger-ui:
+      path: /swagger-ui.html
+spring:
+   datasource:
+      driver-class-name: 
+      type: com.zaxxer.hikari.HikariDataSource
+      jdbcUrl: 
+      username: 
+      password: 
+      hikari:
+         poolName: pool

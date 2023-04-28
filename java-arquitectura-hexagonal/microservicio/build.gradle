@@ -1,0 +1,95 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath 'org.owasp:dependency-check-gradle:6.2.2'
+	}
+}
+
+plugins {
+	id 'org.springframework.boot' version  "${springBootVersion}"
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'info.solidsoft.pitest' version '1.7.4'
+	id 'com.github.jk1.dependency-license-report' version '2.0'
+}
+
+
+allprojects {
+    repositories {
+        mavenCentral() 
+    }
+	apply plugin: 'org.owasp.dependencycheck'
+
+	project.ext.apachecommons = [
+			"commons-io:commons-io:2.6",
+			"org.apache.commons:commons-lang3:3.7"
+	]
+	
+	tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
+	tasks.withType(Test) { systemProperty "file.encoding", "UTF-8" }
+
+	project.ext.mockitocore = ['org.mockito:mockito-core:3.11.2']
+	project.ext.mockitoinline = ['org.mockito:mockito-inline:3.11.2']
+	project.ext.mockitojupiter = ['org.mockito:mockito-junit-jupiter:3.11.2']
+	project.ext.lombok = ["org.projectlombok:lombok:1.18.20"]
+	
+	project.ext.springboottest = ["org.springframework.boot:spring-boot-starter-test:${springBootVersion}"]
+	project.ext.springbootweb = ["org.springframework.boot:spring-boot-starter-web:${springBootVersion}"]
+	project.ext.springdevtools = ["org.springframework.boot:spring-boot-devtools:${springBootVersion}"]
+	project.ext.springbootundertow = ["org.springframework.boot:spring-boot-starter-undertow:${springBootVersion}"]
+	project.ext.springbootjasypt = ['com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.1']
+
+	// Se excluye JUnit 4
+	configurations {
+		runtime.exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+
+	project.ext.springtxt = [
+							  	"org.springframework:spring-tx:${springVersion}",
+							  	"org.springframework:spring-context:${springVersion}"
+							]
+
+	project.ext.springdoc = [
+			"org.springdoc:springdoc-openapi-ui:1.6.8",
+	]
+
+	project.ext.db = [""]
+
+	project.ext.springbootjdbc = ["org.springframework.boot:spring-boot-starter-jdbc:${springBootVersion}"]
+	project.ext.flyway = ["org.flywaydb:flyway-core:7.0.0"]
+	project.ext.flywaytest = ["org.flywaydb.flyway-test-extensions:flyway-spring-test:7.0.0"]
+
+	project.ext.h2 = ["com.h2database:h2:1.4.200"]
+}
+
+group = 'com.ceiba'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = ''
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+
+	configurations {
+    	runtime.exclude module: 'spring-boot-starter-tomcat'
+    	compile.exclude module: 'spring-boot-starter-tomcat'
+	}
+
+	implementation project.ext.springbootweb
+	runtimeOnly project.ext.springdevtools
+	
+	implementation project.ext.springbootundertow
+	implementation project.ext.flyway
+
+	implementation project(':infraestructura')
+}
+
+bootJar {
+
+
+}

@@ -1,0 +1,13 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = ''
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation project.ext.h2
+	implementation project.ext.springboottest
+}
